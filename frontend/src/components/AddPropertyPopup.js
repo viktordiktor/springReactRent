@@ -53,6 +53,9 @@ const AddPropertyPopup = ({ onClose }) => {
         <div className="popup-overlay">
             <div className="popup-content">
                 <h2>Добавить новое объявление</h2>
+                <button className="close-button" onClick={onClose}>
+                    <span className="close-icon">✖</span>
+                </button>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -84,8 +87,8 @@ const AddPropertyPopup = ({ onClose }) => {
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="images">Изображения:</label>
+                    <div className="form-group add-button">
+                        <label htmlFor="images">Изображения:&nbsp;&nbsp;</label>
                         <input type="file" id="images" className="form-control-file" onChange={handleImageUpload} />
                     </div>
                     <div className="image-preview-container">
@@ -93,18 +96,15 @@ const AddPropertyPopup = ({ onClose }) => {
                             <div key={id} className="image-preview-item">
                                 <img src={URL.createObjectURL(image)} alt="Preview" className="image-preview" />
                                 <button type="button" onClick={() => handleRemoveImage(id)}>
-                                    Удалить
+                                    Delete
                                 </button>
                             </div>
                         ))}
                     </div>
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary add-button">
                         Добавить объявление
                     </button>
                 </form>
-                <button className="btn btn-secondary" onClick={onClose}>
-                    Закрыть
-                </button>
             </div>
         </div>
     );

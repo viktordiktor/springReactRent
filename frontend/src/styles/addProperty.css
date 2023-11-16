@@ -30,10 +30,33 @@
 }
 
 .popup-content {
+    position: relative;
     background-color: #fff;
     padding: 20px;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     max-width: 800px; /* Измените значение, если хотите другую ширину */
     width: 100%;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close-icon {
+    font-size: 20px;
+    color: #000;
+}
+
+.close-icon:hover {
+    color: #f00;
+}
+
+.add-button {
+    margin-top: 15px;
 }

@@ -33,10 +33,9 @@ public class PropertyController {
 
     @GetMapping
     public Page<Property> getProperties(@RequestParam(defaultValue = "0") int pageNumber,
-                                        @RequestParam(defaultValue = "10") int pageSize) {
-        for(Property property : propertyService.findAll(pageNumber, pageSize).getContent()){
-            System.out.println(property.getId() + " " + property.getAddress());
-        }
+                                        @RequestParam(defaultValue = "3") int pageSize) {
+        System.out.println("Page: " + pageNumber);
+        System.out.println("Size: " + pageSize);
         return propertyService.findAll(pageNumber, pageSize);
     }
 

@@ -25,11 +25,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // Отключаем CSRF-защиту для простоты примера
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/image").permitAll() // Разрешаем доступ к URL "/image"
-                        .requestMatchers("/api/**").permitAll() // Разрешаем доступ к вашим REST-эндпоинтам
+                        .requestMatchers("/props/new").authenticated() // Разрешаем доступ к URL "/image"
                         .anyRequest().permitAll() // Все остальные запросы требуют аутентификации
                 )
                 .formLogin(AbstractHttpConfigurer::disable)

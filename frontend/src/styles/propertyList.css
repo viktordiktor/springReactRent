@@ -1,5 +1,31 @@
 .card-img-top {
     width: 400px;
-    height: 350px;
+    height: 320px;
     object-fit: cover;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 20px;
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.pagination-button.active {
+    background-color: #e0e0e0;
 }
