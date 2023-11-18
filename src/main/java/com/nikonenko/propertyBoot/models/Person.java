@@ -9,7 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -27,14 +35,6 @@ public class Person {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
-
-    public Person(){}
-
-    public Person(String fullName, String phone, User user) {
-        this.fullName = fullName;
-        this.phone = phone;
-        this.user = user;
-    }
 
     public Long getId() {
         return id;

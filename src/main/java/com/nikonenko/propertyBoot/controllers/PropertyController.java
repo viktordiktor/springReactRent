@@ -8,7 +8,9 @@ import com.nikonenko.propertyBoot.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,8 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/props")
+@RequestMapping("/api/props")
+@CrossOrigin
 public class PropertyController {
     private final PropertyService propertyService;
 
@@ -34,8 +37,6 @@ public class PropertyController {
     @GetMapping
     public Page<Property> getProperties(@RequestParam(defaultValue = "0") int pageNumber,
                                         @RequestParam(defaultValue = "3") int pageSize) {
-        System.out.println("Page: " + pageNumber);
-        System.out.println("Size: " + pageSize);
         return propertyService.findAll(pageNumber, pageSize);
     }
 
@@ -84,8 +85,6 @@ public class PropertyController {
         try {
             return objectMapper.readValue(propertyData, Property.class);
         } catch (JsonProcessingException e) {
-            // Обработка ошибки разбора данных
-            // Возможно, вы захотите вернуть null или бросить исключение, чтобы указать на проблему разбора данных
             e.printStackTrace();
             return null;
         }

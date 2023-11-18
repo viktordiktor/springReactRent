@@ -6,6 +6,8 @@ const AddPropertyPopup = ({ onClose }) => {
     const [address, setAddress] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+    const [square, setSquare] = useState('');
+    const [rooms, setRooms] = useState('');
     const [images, setImages] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -26,20 +28,20 @@ const AddPropertyPopup = ({ onClose }) => {
 
         try {
             const formData = new FormData();
-            formData.append('propertyData', JSON.stringify({ address, price, description }));
+            formData.append('propertyData', JSON.stringify({ address, price, description, square, rooms }));
 
             Object.values(images).forEach((image) => {
                 formData.append(`images`, image);
             });
 
-            await axios.post('/props/new', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const accessToken = localStorage.getItem('access_token');
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'multipart/form-data'
+            };
 
-            // Объявление успешно добавлено, выполните необходимые действия, например, обновите список объявлений
-            // ...
+            await axios.post('/api/props/new', formData, { headers });
+
             window.location.reload();
             // Закрываем попап
             onClose();
@@ -76,6 +78,26 @@ const AddPropertyPopup = ({ onClose }) => {
                             className="form-control"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="rooms">Количество комнат:</label>
+                        <input
+                            type="number"
+                            id="rooms"
+                            className="form-control"
+                            value={rooms}
+                            onChange={(e) => setRooms(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="square">Площадь:</label>
+                        <input
+                            type="number"
+                            id="square"
+                            className="form-control"
+                            value={square}
+                            onChange={(e) => setSquare(e.target.value)}
                         />
                     </div>
                     <div className="form-group">

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 function Registry() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
+    const [redirect, setRedirect] = useState(false);
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
     };
 
     const handlePasswordChange = (event) => {
@@ -26,81 +29,85 @@ function Registry() {
         event.preventDefault();
 
         const userData = {
-            username: username,
+            email: email,
             password: password,
+            role: 'USER',
             fullName: fullName,
             phone: phone
         };
 
-        fetch('/auth/registry', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        })
+        axios.post('/api/auth/register', userData)
             .then(response => {
-                if (response.ok) {
-                    console.log('Регистрация успешна');
-                } else {
-                    console.error('Ошибка при регистрации');
-                }
+                console.log('Регистрация успешна');
+                setRedirect(true);
             })
             .catch(error => {
-                console.error('Ошибка сети:', error);
+                console.error('Ошибка при регистрации', error);
             });
     };
 
+    if (redirect) {
+        return <Navigate to='/login'/>;
+    }
+
     return (
-        <div>
-            <h2>Регистрация</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Имя пользователя:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={username}
-                        onChange={handleUsernameChange}
-                        required
-                    />
+        <div className="container d-flex align-items-center justify-content-center vh-100">
+            <div className="card w-75"> {/* Измененный класс w-75 */}
+                <div className="card-body">
+                    <h2 className="card-title text-center mb-4">Регистрация</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                className="form-control"
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Пароль:</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={handlePasswordChange}
+                                className="form-control"
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="fullName" className="form-label">Полное имя:</label>
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="fullName"
+                                value={fullName}
+                                onChange={handleFullNameChange}
+                                className="form-control"
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="phone" className="form-label">Телефон:</label>
+                            <input
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                value={phone}
+                                onChange={handlePhoneChange}
+                                className="form-control"
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
+                    </form>
                 </div>
-                <div>
-                    <label htmlFor="password">Пароль:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="fullName">Полное имя:</label>
-                    <input
-                        type="text"
-                        id="fullName"
-                        name="fullName"
-                        value={fullName}
-                        onChange={handleFullNameChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="phone">Телефон:</label>
-                    <input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Зарегистрироваться</button>
-            </form>
+            </div>
         </div>
     );
 }

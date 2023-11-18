@@ -18,7 +18,7 @@ const PropertyList = () => {
 
     const fetchProperties = async () => {
         try {
-            const response = await axios.get(`/props?pageNumber=${page - 1}`);
+            const response = await axios.get(`/api/props?pageNumber=${page - 1}`);
             const fetchedProperties = response.data.content;
             const totalPages = response.data.totalPages;
 
@@ -61,7 +61,14 @@ const PropertyList = () => {
     };
 
     const handleAddPropertyClick = () => {
-        setShowAddPopup(true);
+        const accessToken = localStorage.getItem('access_token');
+        const refreshToken = localStorage.getItem('refresh_token');
+
+        if (accessToken && refreshToken) {
+            setShowAddPopup(true);
+        } else {
+            window.location.href = '/login'
+        }
     };
 
     const handleClosePopup = () => {
@@ -90,9 +97,9 @@ const PropertyList = () => {
                                         <img src={property.imageUrl} className="card-img-top" alt={property.address} />
                                         <div className="card-body">
                                             <h5 className="card-title">{property.address}</h5>
-                                            <p className="card-text">Адрес: {property.address}</p>
                                             <p className="card-text">Цена: {property.price}$</p>
-                                            <p className="card-text">Описание: {property.description}</p>
+                                            <p className="card-text">Комнат: {property.rooms}</p>
+                                            <p className="card-text">Площадь: {property.square} кв. м.</p>
                                         </div>
                                     </div>
                                 </div>

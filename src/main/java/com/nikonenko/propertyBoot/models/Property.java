@@ -16,10 +16,18 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="properties")
 public class Property {
@@ -41,24 +49,18 @@ public class Property {
     @Column
     private String description;
 
+    @Column
+    private Integer rooms;
+
+    @Column
+    private Float square;
+
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Image> images;
 
     @Transient
     private boolean deleted = false;
-
-    public Property(){}
-
-    public Property
-            (User user, String address, BigDecimal price, String description, Set<Image> images, boolean deleted) {
-        this.user = user;
-        this.address = address;
-        this.price = price;
-        this.description = description;
-        this.images = images;
-        this.deleted = deleted;
-    }
 
     public Long getId() {
         return id;
