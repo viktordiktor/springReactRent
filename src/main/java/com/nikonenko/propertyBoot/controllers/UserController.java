@@ -1,7 +1,7 @@
 package com.nikonenko.propertyBoot.controllers;
 
 import com.nikonenko.propertyBoot.security.user.ChangePasswordRequest;
-import com.nikonenko.propertyBoot.security.user.UserService;
+import com.nikonenko.propertyBoot.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;

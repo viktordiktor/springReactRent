@@ -1,7 +1,6 @@
 package com.nikonenko.propertyBoot.models;
 
 
-import com.nikonenko.propertyBoot.security.token.TokenType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

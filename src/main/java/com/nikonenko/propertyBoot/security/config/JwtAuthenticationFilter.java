@@ -1,7 +1,7 @@
 package com.nikonenko.propertyBoot.security.config;
 
 
-import com.nikonenko.propertyBoot.security.token.TokenRepository;
+import com.nikonenko.propertyBoot.repositories.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

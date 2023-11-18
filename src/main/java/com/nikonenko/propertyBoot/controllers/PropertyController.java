@@ -5,14 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nikonenko.propertyBoot.models.Image;
 import com.nikonenko.propertyBoot.models.Property;
 import com.nikonenko.propertyBoot.services.PropertyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nikonenko.propertyBoot.utils.JwtUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -28,16 +28,24 @@ import java.util.Set;
 @CrossOrigin
 public class PropertyController {
     private final PropertyService propertyService;
+    private final JwtUtils jwtUtils;
 
-    @Autowired
-    public PropertyController(PropertyService propertyService) {
+
+    public PropertyController(PropertyService propertyService, JwtUtils jwtUtils) {
         this.propertyService = propertyService;
+        this.jwtUtils = jwtUtils;
     }
 
     @GetMapping
     public Page<Property> getProperties(@RequestParam(defaultValue = "0") int pageNumber,
                                         @RequestParam(defaultValue = "3") int pageSize) {
         return propertyService.findAll(pageNumber, pageSize);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Property> getProperty(@PathVariable Integer id) {
+        Optional<Property> property = propertyService.findOne(id);
+        return property.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/sorted-properties")
@@ -49,12 +57,13 @@ public class PropertyController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> createProperty(@RequestParam("images") MultipartFile[] imageFiles,
+    public ResponseEntity<String> createProperty(@RequestHeader("Authorization") String authorizationHeader,
+                                                 @RequestParam("images") MultipartFile[] imageFiles,
                                                  @RequestParam("propertyData") String propertyData) {
-        // Разбор данных объекта недвижимости из строки propertyData
         Property property = parsePropertyData(propertyData);
-
-        // Создание и сохранение объектов Image для каждого загруженного файла
+        String token = authorizationHeader.substring(7);
+        assert property != null;
+        property.setUser(jwtUtils.extractUser(token));
         Set<Image> images = new HashSet<>();
         for (MultipartFile imageFile : imageFiles) {
             try {
@@ -62,19 +71,13 @@ public class PropertyController {
                 Image image = new Image();
                 image.setImage(imageData);
                 image.setProperty(property);
-
                 images.add(image);
             } catch (IOException e) {
-                // Обработка ошибки чтения файла изображения
-                // Возможно, вы захотите прервать процесс создания объекта недвижимости и вернуть сообщение об ошибке
                 return ResponseEntity.badRequest().body("Ошибка чтения файла изображения");
             }
         }
-
-        // Установка связи между объектом недвижимости и картинками
         property.setImages(images);
 
-        // Сохранение объекта недвижимости и картинок в базу данных
         propertyService.save(property);
 
         return ResponseEntity.ok("Объект недвижимости успешно создан");

@@ -1,4 +1,4 @@
-package com.nikonenko.propertyBoot.security.auth;
+package com.nikonenko.propertyBoot.dto;
 
 
 import com.nikonenko.propertyBoot.models.Role;

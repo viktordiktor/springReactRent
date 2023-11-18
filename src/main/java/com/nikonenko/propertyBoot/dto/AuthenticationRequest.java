@@ -1,4 +1,4 @@
-package com.nikonenko.propertyBoot.security.auth;
+package com.nikonenko.propertyBoot.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

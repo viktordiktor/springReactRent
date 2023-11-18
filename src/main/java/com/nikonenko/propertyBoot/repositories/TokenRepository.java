@@ -1,4 +1,4 @@
-package com.nikonenko.propertyBoot.security.token;
+package com.nikonenko.propertyBoot.repositories;
 
 import com.nikonenko.propertyBoot.models.Token;
 import org.springframework.data.jpa.repository.JpaRepository;

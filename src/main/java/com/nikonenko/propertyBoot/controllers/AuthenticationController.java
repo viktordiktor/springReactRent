@@ -1,9 +1,9 @@
 package com.nikonenko.propertyBoot.controllers;
 
-import com.nikonenko.propertyBoot.security.auth.AuthenticationRequest;
-import com.nikonenko.propertyBoot.security.auth.AuthenticationResponse;
+import com.nikonenko.propertyBoot.dto.AuthenticationRequest;
+import com.nikonenko.propertyBoot.dto.AuthenticationResponse;
 import com.nikonenko.propertyBoot.services.AuthenticationService;
-import com.nikonenko.propertyBoot.security.auth.RegisterRequest;
+import com.nikonenko.propertyBoot.dto.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
