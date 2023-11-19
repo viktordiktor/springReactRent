@@ -26,6 +26,7 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/api/auth/**",
             "/api/props**",
+            "/api/props/**",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",

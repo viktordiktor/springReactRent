@@ -2,7 +2,9 @@ package com.nikonenko.propertyBoot.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nikonenko.propertyBoot.dto.SinglePropertyResponse;
 import com.nikonenko.propertyBoot.models.Image;
+import com.nikonenko.propertyBoot.models.Person;
 import com.nikonenko.propertyBoot.models.Property;
 import com.nikonenko.propertyBoot.services.PropertyService;
 import com.nikonenko.propertyBoot.utils.JwtUtils;
@@ -43,9 +45,22 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Property> getProperty(@PathVariable Integer id) {
+    public ResponseEntity<SinglePropertyResponse> getProperty(@PathVariable Integer id) {
         Optional<Property> property = propertyService.findOne(id);
-        return property.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+        if (property.isPresent()) {
+            Property propertyObj = property.get();
+            Person person = propertyObj.getUser().getPerson();
+
+            SinglePropertyResponse response = SinglePropertyResponse.builder()
+                    .person(person)
+                    .property(propertyObj)
+                    .build();
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/sorted-properties")

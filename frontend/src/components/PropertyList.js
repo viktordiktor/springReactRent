@@ -4,6 +4,7 @@ import { Spinner } from 'react-bootstrap';
 import AddPropertyPopup from './AddPropertyPopup';
 import '../styles/propertyList.css';
 import Header from '../elements/Header';
+import {Link, useNavigate} from "react-router-dom";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
@@ -11,6 +12,11 @@ const PropertyList = () => {
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const navigate = useNavigate();
+
+    const refreshPage = () => {
+        navigate(0);
+    }
 
     useEffect(() => {
         fetchProperties();
@@ -77,6 +83,9 @@ const PropertyList = () => {
 
     const handleAddProperty = (newProperty) => {
         setProperties([...properties, newProperty]);
+        navigate('/props');
+        refreshPage();
+        navigate(0);
     };
 
     return (
@@ -94,7 +103,9 @@ const PropertyList = () => {
                             properties.map((property) => (
                                 <div key={property.id} className="col-md-4 mb-4">
                                     <div className="card">
-                                        <img src={property.imageUrl} className="card-img-top" alt={property.address} />
+                                        <Link to={`/props/${property.id}`}>
+                                            <img src={property.imageUrl} className="card-img-top" alt={property.address} />
+                                        </Link>
                                         <div className="card-body">
                                             <h5 className="card-title">{property.address}</h5>
                                             <p className="card-text">Цена: {property.price}$</p>

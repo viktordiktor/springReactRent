@@ -26,6 +26,12 @@ public class PropertyService {
         this.propertyRepository = propertyRepository;
     }
 
+
+    public List<Property> findAll() {
+        return propertyRepository.findAll()
+                .stream()
+                .filter(property -> !property.isDeleted()).toList();
+    }
     public Page<Property> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Property> page = propertyRepository.findAll(pageable);
@@ -36,6 +42,10 @@ public class PropertyService {
                 .collect(Collectors.toList());
 
         return new PageImpl<>(properties, pageable, page.getTotalElements());
+    }
+
+    public List<Property> findWithDeleted() {
+        return propertyRepository.findAll();
     }
 
     public Page<Property> findAllSorted(int pageNumber, int pageSize, String sortBy) {

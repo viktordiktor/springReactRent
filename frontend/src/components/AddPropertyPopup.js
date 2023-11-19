@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/addProperty.css';
+import {useNavigate} from "react-router-dom";
 
 const AddPropertyPopup = ({ onClose }) => {
     const [address, setAddress] = useState('');
@@ -10,6 +11,7 @@ const AddPropertyPopup = ({ onClose }) => {
     const [rooms, setRooms] = useState('');
     const [images, setImages] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleImageUpload = (event) => {
         const selectedImage = event.target.files[0];
@@ -42,8 +44,8 @@ const AddPropertyPopup = ({ onClose }) => {
 
             await axios.post('/api/props/new', formData, { headers });
 
+            navigate('/props');
             window.location.reload();
-            // Закрываем попап
             onClose();
         } catch (error) {
             // Обработка ошибки добавления объявления

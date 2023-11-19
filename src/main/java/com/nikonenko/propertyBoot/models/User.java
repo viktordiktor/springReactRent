@@ -1,5 +1,7 @@
 package com.nikonenko.propertyBoot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +42,15 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Token> tokens;
+
+    @OneToOne(mappedBy = "user")
+    private Person person;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Property> properties;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,5 +86,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
 

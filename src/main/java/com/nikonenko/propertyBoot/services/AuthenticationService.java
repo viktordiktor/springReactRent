@@ -35,25 +35,30 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
+    if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+      throw new IllegalArgumentException("Пользователь с таким email уже существует");
+    }
+
     User user = User.builder()
-        .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
-        .role(request.getRole())
-        .build();
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role(request.getRole())
+            .build();
     Person person = Person.builder()
             .fullName(request.getFullName())
             .phone(request.getPhone())
             .user(user)
             .build();
+    user.setPerson(person);
     User savedUser = userRepository.save(user);
-    Person savedPerson = personRepository.save(person);
+    personRepository.save(person);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
+            .accessToken(jwtToken)
             .refreshToken(refreshToken)
-        .build();
+            .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
