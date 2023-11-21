@@ -1,0 +1,29 @@
+.property-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.property-card {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.property-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+.property-details {
+    flex-grow: 1;
+}
+
+.property-details p {
+    margin: 0 0 8px;
+}

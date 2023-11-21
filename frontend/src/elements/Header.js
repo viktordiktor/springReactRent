@@ -13,7 +13,7 @@ const Header = ({ onAddProperty }) => {
                 Добавить новое объявление
             </button>
             {accessToken ? (
-                <Link to="/users/profile" className="btn btn-primary">
+                <Link to="/profile" className="btn btn-primary">
                     Профиль
                 </Link>
             ) : (

@@ -1,4 +1,4 @@
-package com.nikonenko.propertyBoot.security.config;
+package com.nikonenko.propertyBoot.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

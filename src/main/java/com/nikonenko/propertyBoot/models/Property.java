@@ -33,7 +33,7 @@ import java.util.Set;
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -59,14 +59,14 @@ public class Property {
     @JsonManagedReference
     private Set<Image> images;
 
-    @Transient
+    @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

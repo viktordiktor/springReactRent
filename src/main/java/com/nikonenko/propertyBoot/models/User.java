@@ -2,6 +2,7 @@ package com.nikonenko.propertyBoot.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -45,11 +47,12 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Token> tokens;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Person person;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
+    @ToString.Exclude
     private List<Property> properties;
 
     @Override

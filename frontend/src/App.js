@@ -4,6 +4,7 @@ import PropertyList from './components/PropertyList';
 import Registry from "./components/Registry";
 import Login from "./components/Login"
 import SingleProperty from "./components/SingleProperty";
+import Profile from "./components/Profile";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
             <Route exact path="/props/:id" element={<SingleProperty />} />
             <Route exact path="/registry" element={<Registry/>} />
             <Route exact path="/login" element={<Login/>} />
+            <Route exact path="/profile" element={<Profile/>} />
           </Routes>
         </div>
       </Router>

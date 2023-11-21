@@ -33,7 +33,7 @@ public class PersonService {
     }
 
     @Transactional
-    public void update(Long id, Person updatedPerson){
+    public void update(Integer id, Person updatedPerson){
         updatedPerson.setId(id);
         personRepository.save(updatedPerson);
     }

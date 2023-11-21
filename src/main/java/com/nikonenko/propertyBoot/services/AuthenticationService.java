@@ -10,7 +10,6 @@ import com.nikonenko.propertyBoot.repositories.UserRepository;
 import com.nikonenko.propertyBoot.dto.AuthenticationRequest;
 import com.nikonenko.propertyBoot.dto.AuthenticationResponse;
 import com.nikonenko.propertyBoot.dto.RegisterRequest;
-import com.nikonenko.propertyBoot.security.config.JwtService;
 import com.nikonenko.propertyBoot.repositories.TokenRepository;
 import com.nikonenko.propertyBoot.models.TokenType;
 import jakarta.servlet.http.HttpServletRequest;

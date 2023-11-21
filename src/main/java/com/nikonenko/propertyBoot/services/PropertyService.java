@@ -3,6 +3,7 @@ package com.nikonenko.propertyBoot.services;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.nikonenko.propertyBoot.models.Property;
 import com.nikonenko.propertyBoot.repositories.PropertyRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -44,6 +45,10 @@ public class PropertyService {
         return new PageImpl<>(properties, pageable, page.getTotalElements());
     }
 
+    public List<Property> findExisting(){
+        return propertyRepository.findAllExisting();
+    }
+
     public List<Property> findWithDeleted() {
         return propertyRepository.findAll();
     }
@@ -65,20 +70,18 @@ public class PropertyService {
     }
 
     @Transactional
-    public Property update(Long id, Property updatedProperty){
+    public Property update(Integer id, Property updatedProperty){
         updatedProperty.setId(id);
         return propertyRepository.save(updatedProperty);
     }
 
     @Transactional
-    public void delete(int id) {
-        Optional<Property> propertyOptional = propertyRepository.findById(id);
-        if (propertyOptional.isPresent()) {
-            Property property = propertyOptional.get();
-            property.setDeleted(true);
-            propertyRepository.save(property);
-        } else {
-            throw new RuntimeException("Property not found with id: " + id);
-        }
+    public void deleteByUser(Integer id){
+        propertyRepository.softDeleteById(id);
+    }
+
+    @Transactional
+    public void restore(Integer id){
+        propertyRepository.restoreById(id);
     }
 }
