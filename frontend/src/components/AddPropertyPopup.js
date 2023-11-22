@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/addProperty.css';
-import {useNavigate} from "react-router-dom";
-import {refreshToken} from "./Login";
+import { useNavigate } from 'react-router-dom';
+import {propertyTypeOptions, refreshToken} from '../utils/requestUtils';
+import Select from 'react-select';
 
 const AddPropertyPopup = ({ onClose }) => {
     const [address, setAddress] = useState('');
@@ -11,12 +12,13 @@ const AddPropertyPopup = ({ onClose }) => {
     const [square, setSquare] = useState('');
     const [rooms, setRooms] = useState('');
     const [images, setImages] = useState({});
+    const [propertyType, setPropertyType] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleImageUpload = (event) => {
         const selectedImage = event.target.files[0];
-        const id = Math.random().toString(36).substr(2, 9); // Генерируем случайный идентификатор файла
+        const id = Math.random().toString(36).substr(2, 9);
         setImages((prevImages) => ({ ...prevImages, [id]: selectedImage }));
     };
 
@@ -37,10 +39,12 @@ const AddPropertyPopup = ({ onClose }) => {
                 formData.append(`images`, image);
             });
 
+            formData.append('propertyType', propertyType.value);
+
             const accessToken = localStorage.getItem('access_token');
             const headers = {
                 Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
             };
 
             await axios.post('/api/props/new', formData, { headers });
@@ -49,10 +53,12 @@ const AddPropertyPopup = ({ onClose }) => {
             window.location.reload();
             onClose();
         } catch (error) {
-            if(error.response.status === 401){
+            if (error.response.status === 401) {
                 refreshToken();
             }
-            setErrorMessage('Произошла ошибка при добавлении объявления. Пожалуйста, попробуйте еще раз.');
+            setErrorMessage(
+                'Произошла ошибка при добавлении объявления. Пожалуйста, попробуйте еще раз.'
+            );
         }
     };
 
@@ -85,6 +91,14 @@ const AddPropertyPopup = ({ onClose }) => {
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
+                    <label htmlFor="selectType">Тип недвижимости:</label>
+                    <Select
+                        options={propertyTypeOptions}
+                        value={propertyType}
+                        onChange={(value) => setPropertyType(value)}
+                        id="selectType"
+                    />
+
                     <div className="form-group">
                         <label htmlFor="rooms">Количество комнат:</label>
                         <input

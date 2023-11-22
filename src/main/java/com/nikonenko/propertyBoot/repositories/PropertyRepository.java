@@ -2,6 +2,8 @@ package com.nikonenko.propertyBoot.repositories;
 
 import com.nikonenko.propertyBoot.models.Property;
 import com.nikonenko.propertyBoot.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +21,5 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
     void restoreById(@Param("productId") Integer productId);
 
     @Query("SELECT p FROM Property p WHERE p.deleted = false")
-    List<Property> findAllExisting();
+    Page<Property> findAllExisting(Pageable pageable);
 }

@@ -35,7 +35,7 @@ public class PropertyService {
     }
     public Page<Property> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<Property> page = propertyRepository.findAll(pageable);
+        Page<Property> page = propertyRepository.findAllExisting(pageable);
 
         List<Property> properties = page.getContent()
                 .stream()
@@ -43,10 +43,6 @@ public class PropertyService {
                 .collect(Collectors.toList());
 
         return new PageImpl<>(properties, pageable, page.getTotalElements());
-    }
-
-    public List<Property> findExisting(){
-        return propertyRepository.findAllExisting();
     }
 
     public List<Property> findWithDeleted() {

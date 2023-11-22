@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -58,6 +60,9 @@ public class Property {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Image> images;
+
+    @Enumerated(EnumType.STRING)
+    private PropertyType type;
 
     @Column(name = "deleted")
     private boolean deleted = false;

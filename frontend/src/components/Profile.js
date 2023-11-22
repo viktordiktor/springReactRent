@@ -5,7 +5,7 @@ import AddPropertyPopup from "./AddPropertyPopup";
 import Header from "../elements/Header";
 import { useNavigate } from "react-router-dom";
 import EditPropertyPopup from "./EditPropertyPopup";
-import {refreshToken} from "./Login";
+import {refreshToken} from "../utils/requestUtils";
 
 const Profile = () => {
     const [userProfile, setUserProfile] = useState(null);

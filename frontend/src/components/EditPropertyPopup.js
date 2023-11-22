@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/addProperty.css';
 import { useNavigate } from 'react-router-dom';
-import {refreshToken} from "./Login";
+import {propertyTypeOptions, refreshToken} from '../utils/requestUtils';
+import Select from "react-select";
 
 const EditPropertyPopup = ({ onClose, propertyId }) => {
     const [address, setAddress] = useState('');
@@ -12,6 +13,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
     const [rooms, setRooms] = useState('');
     const [images, setImages] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+    const [propertyType, setPropertyType] = useState('');
     const navigate = useNavigate();
     console.log(images);
 
@@ -26,6 +28,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                 setDescription(property.description);
                 setSquare(property.square);
                 setRooms(property.rooms);
+                setPropertyType(property.type);
 
                 // Загрузка изображений в форму
 
@@ -84,6 +87,8 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                 const file = dataURLtoFile(imageUrl, fileName, fileType);
                 formData.append('images', file);
             });
+
+            formData.append('propertyType', propertyType.value);
 
             const accessToken = localStorage.getItem('access_token');
             const headers = {
@@ -145,6 +150,13 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
+                    <label htmlFor="selectType">Тип недвижимости:</label>
+                    <Select
+                        options={propertyTypeOptions}
+                        value={propertyTypeOptions.find(option => option.value === propertyType)}
+                        onChange={(value) => setPropertyType(value)}
+                        id="selectType"
+                    />
                     <div className="form-group">
                         <label htmlFor="rooms">Количество комнат:</label>
                         <input

@@ -17,7 +17,7 @@ const Header = ({ onAddProperty }) => {
                     Профиль
                 </Link>
             ) : (
-                <Link to="/auth/login" className="btn btn-primary">
+                <Link to="/login" className="btn btn-primary">
                     Войти
                 </Link>
             )}

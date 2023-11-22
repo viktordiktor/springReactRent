@@ -6,6 +6,7 @@ import com.nikonenko.propertyBoot.dto.SinglePropertyResponse;
 import com.nikonenko.propertyBoot.models.Image;
 import com.nikonenko.propertyBoot.models.Person;
 import com.nikonenko.propertyBoot.models.Property;
+import com.nikonenko.propertyBoot.models.PropertyType;
 import com.nikonenko.propertyBoot.services.ImageService;
 import com.nikonenko.propertyBoot.services.PropertyService;
 import com.nikonenko.propertyBoot.utils.JwtUtils;
@@ -81,7 +82,8 @@ public class PropertyController {
     @PatchMapping("/{propertyId}")
     public ResponseEntity<?> editProperty(  @RequestParam("images") MultipartFile[] imageFiles,
                                                  @RequestParam("propertyData") String propertyData,
-                                                 @PathVariable Integer propertyId) {
+                                                 @PathVariable Integer propertyId,
+                                                 @RequestParam("propertyType") PropertyType propertyType) {
         if(propertyService.findOne(propertyId).isEmpty())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Недостаточно прав для редактирования объекта недвижимости");
@@ -94,6 +96,7 @@ public class PropertyController {
         property.setPrice(updatedProperty.getPrice());
         property.setRooms(updatedProperty.getRooms());
         property.setSquare(updatedProperty.getSquare());
+        property.setType(propertyType);
 
         imageService.deletePropertiesImages(propertyId);
 
@@ -139,11 +142,13 @@ public class PropertyController {
     @PostMapping("/new")
     public ResponseEntity<?> createProperty(@RequestHeader("Authorization") String authorizationHeader,
                                                  @RequestParam("images") MultipartFile[] imageFiles,
-                                                 @RequestParam("propertyData") String propertyData) {
+                                                 @RequestParam("propertyData") String propertyData,
+                                                 @RequestParam("propertyType") PropertyType propertyType) {
         Property property = parsePropertyData(propertyData);
         String token = authorizationHeader.substring(7);
         assert property != null;
         property.setUser(jwtUtils.extractUser(token));
+        property.setType(propertyType);
         Set<Image> images = new HashSet<>();
         for (MultipartFile imageFile : imageFiles) {
             try {

@@ -5,6 +5,7 @@ import AddPropertyPopup from './AddPropertyPopup';
 import '../styles/propertyList.css';
 import Header from '../elements/Header';
 import {Link, useNavigate} from "react-router-dom";
+import {getTypeLabel} from "../utils/requestUtils";
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
@@ -107,10 +108,9 @@ const PropertyList = () => {
                                             <img src={property.imageUrl} className="card-img-top" alt={property.address} />
                                         </Link>
                                         <div className="card-body">
+                                            <h1 className="card-title">{property.price}$</h1>
                                             <h5 className="card-title">{property.address}</h5>
-                                            <p className="card-text">Цена: {property.price}$</p>
-                                            <p className="card-text">Комнат: {property.rooms}</p>
-                                            <p className="card-text">Площадь: {property.square} кв. м.</p>
+                                            <p className="card-text">{getTypeLabel(property.type)}, {property.rooms} комн., {property.square} кв. м.</p>
                                         </div>
                                     </div>
                                 </div>
