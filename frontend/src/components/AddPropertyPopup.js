@@ -54,7 +54,10 @@ const AddPropertyPopup = ({ onClose }) => {
             onClose();
         } catch (error) {
             if (error.response.status === 401) {
-                refreshToken();
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                navigate("/login");
+                window.location.reload();
             }
             setErrorMessage(
                 'Произошла ошибка при добавлении объявления. Пожалуйста, попробуйте еще раз.'

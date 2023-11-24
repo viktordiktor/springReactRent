@@ -1,0 +1,31 @@
+.filter-modal {
+    position: fixed;
+    bottom: 0;
+    background-color: gray; /* Пример серого цвета фона с непрозрачностью 0.5 */
+    padding: 20px;
+    border-radius: 5px;
+    color: #fff; /* Цвет текста внутри модального окна */
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.filter-section {
+    margin-bottom: 10px;
+}
+
+.filter-section label {
+    display: block;
+    margin-bottom: 5px;
+}

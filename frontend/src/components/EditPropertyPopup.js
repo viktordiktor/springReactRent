@@ -30,16 +30,17 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                 setRooms(property.rooms);
                 setPropertyType(property.type);
 
-                // Загрузка изображений в форму
-
                 setImages(property.images.map((image) => ({
                     id: image.id,
                     imageUrl: `data:image/jpeg;base64,${image.image}`,
                 })));
 
             } catch (error) {
-                if(error.response.status === 401){
-                    refreshToken();
+                if (error.response.status === 401) {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("refresh_token");
+                    navigate("/login");
+                    window.location.reload();
                 }
                 console.error('Ошибка при редактировании', error);
             }
@@ -102,8 +103,11 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
             window.location.reload();
             onClose();
         } catch (error) {
-            if(error.response.status === 401){
-                refreshToken();
+            if (error.response.status === 401) {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                navigate("/login");
+                window.location.reload();
             }
             setErrorMessage('Произошла ошибка при редактировании объявления. Пожалуйста, попробуйте еще раз.');
         }

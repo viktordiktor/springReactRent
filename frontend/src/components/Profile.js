@@ -5,7 +5,6 @@ import AddPropertyPopup from "./AddPropertyPopup";
 import Header from "../elements/Header";
 import { useNavigate } from "react-router-dom";
 import EditPropertyPopup from "./EditPropertyPopup";
-import {refreshToken} from "../utils/requestUtils";
 
 const Profile = () => {
     const [userProfile, setUserProfile] = useState(null);
@@ -31,8 +30,11 @@ const Profile = () => {
                 setPhone(response.data.person.phone);
                 setLoading(false);
             } catch (error) {
-                if(error.response.status === 401){
-                    refreshToken();
+                if (error.response.status === 401) {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("refresh_token");
+                    navigate("/login");
+                    window.location.reload();
                 }
                 console.error(error);
                 setLoading(false);
@@ -63,8 +65,11 @@ const Profile = () => {
                     }
                 );
             } catch(error){
-                if(error.response.status === 401){
-                    refreshToken();
+                if (error.response.status === 401) {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("refresh_token");
+                    navigate("/login");
+                    window.location.reload();
                 }
             }
             // Обновление userProfile после успешного выполнения запроса
@@ -112,8 +117,11 @@ const Profile = () => {
 
             await axios.delete(`/api/props/${propertyId}`, { headers });
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                refreshToken();
+            if (error.response.status === 401) {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                navigate("/login");
+                window.location.reload();
             }
         }
         window.location.reload();
@@ -128,8 +136,11 @@ const Profile = () => {
 
             await axios.post(`/api/props/${propertyId}`, { headers });
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                refreshToken();
+            if (error.response.status === 401) {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                navigate("/login");
+                window.location.reload();
             }
         }
         window.location.reload();

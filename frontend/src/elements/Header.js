@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/header.css';
 
 const Header = ({ onAddProperty }) => {
     const accessToken = localStorage.getItem('access_token');

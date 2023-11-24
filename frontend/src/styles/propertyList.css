@@ -1,6 +1,6 @@
 .card-img-top {
-    width: 400px;
-    height: 320px;
+    width: 385px;
+    height: 305px;
     object-fit: cover;
 }
 
@@ -28,4 +28,29 @@
 
 .pagination-button.active {
     background-color: #e0e0e0;
+}
+
+.sort-link:hover {
+    font-weight: bold;
+}
+
+.sort-link.active {
+    font-weight: bold;
+}
+
+.sort-link:hover svg {
+    color: #007bff;
+}
+
+.sort-link.active svg {
+    color: #007bff;
+}
+
+.sort-link:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sort-link.active {
+    font-weight: bold;
 }

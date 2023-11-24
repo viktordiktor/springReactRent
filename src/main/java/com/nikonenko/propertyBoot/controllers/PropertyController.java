@@ -11,6 +11,7 @@ import com.nikonenko.propertyBoot.services.ImageService;
 import com.nikonenko.propertyBoot.services.PropertyService;
 import com.nikonenko.propertyBoot.utils.JwtUtils;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/props")
 @CrossOrigin
 public class PropertyController {
@@ -39,17 +42,20 @@ public class PropertyController {
     private final ImageService imageService;
     private final JwtUtils jwtUtils;
 
-
-    public PropertyController(PropertyService propertyService, JwtUtils jwtUtils, ImageService imageService) {
-        this.propertyService = propertyService;
-        this.imageService = imageService;
-        this.jwtUtils = jwtUtils;
-    }
-
     @GetMapping
     public Page<Property> getProperties(@RequestParam(defaultValue = "0") int pageNumber,
-                                        @RequestParam(defaultValue = "3") int pageSize) {
-        return propertyService.findAll(pageNumber, pageSize);
+                                        @RequestParam(defaultValue = "3") int pageSize,
+                                        @RequestParam(required = false) PropertyType propertyType,
+                                        @RequestParam(required = false) BigDecimal minPrice,
+                                        @RequestParam(required = false) BigDecimal maxPrice,
+                                        @RequestParam(required=false) String sortField,
+                                        @RequestParam(required = false) String sortType) {
+        if (propertyType != null || minPrice != null || maxPrice != null || sortField != null) {
+            return propertyService.findFilteredProperties(propertyType, minPrice, maxPrice, sortField, sortType,
+                    pageNumber, pageSize);
+        } else {
+            return propertyService.findAll(pageNumber, pageSize);
+        }
     }
 
     @GetMapping("/{id}")
@@ -88,7 +94,7 @@ public class PropertyController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Недостаточно прав для редактирования объекта недвижимости");
         Property property = propertyService.findOne(propertyId).get();
-        Property updatedProperty = parsePropertyData(propertyData);
+        Property updatedProperty = propertyService.parsePropertyData(propertyData);
 
         assert updatedProperty != null;
         property.setAddress(updatedProperty.getAddress());
@@ -100,6 +106,10 @@ public class PropertyController {
 
         imageService.deletePropertiesImages(propertyId);
 
+        return getResponseEntity(imageFiles, property);
+    }
+
+    private ResponseEntity<?> getResponseEntity(@RequestParam("images") MultipartFile[] imageFiles, Property property) {
         Set<Image> images = new HashSet<>();
         for (MultipartFile imageFile : imageFiles) {
             try {
@@ -125,7 +135,7 @@ public class PropertyController {
             return ResponseEntity.badRequest().body("Неверный id объявления");
         }
         Property deletedProperty = propertyService.findOne(id).get();
-        propertyService.deleteByUser(id);
+        propertyService.softDelete(id);
         return ResponseEntity.ok(deletedProperty);
     }
 
@@ -144,37 +154,11 @@ public class PropertyController {
                                                  @RequestParam("images") MultipartFile[] imageFiles,
                                                  @RequestParam("propertyData") String propertyData,
                                                  @RequestParam("propertyType") PropertyType propertyType) {
-        Property property = parsePropertyData(propertyData);
+        Property property = propertyService.parsePropertyData(propertyData);
         String token = authorizationHeader.substring(7);
         assert property != null;
         property.setUser(jwtUtils.extractUser(token));
         property.setType(propertyType);
-        Set<Image> images = new HashSet<>();
-        for (MultipartFile imageFile : imageFiles) {
-            try {
-                byte[] imageData = imageFile.getBytes();
-                Image image = new Image();
-                image.setImage(imageData);
-                image.setProperty(property);
-                images.add(image);
-            } catch (IOException e) {
-                return ResponseEntity.badRequest().body("Ошибка чтения файла изображения");
-            }
-        }
-        property.setImages(images);
-
-        propertyService.save(property);
-
-        return ResponseEntity.ok(property);
-    }
-
-    private Property parsePropertyData(String propertyData) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(propertyData, Property.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return getResponseEntity(imageFiles, property);
     }
 }

@@ -20,14 +20,7 @@ import static com.nikonenko.propertyBoot.security.user.Permission.ADMIN_UPDATE;
 public enum Role {
 
   USER(Collections.emptySet()),
-  ADMIN(
-          Set.of(
-                  ADMIN_READ,
-                  ADMIN_UPDATE,
-                  ADMIN_DELETE,
-                  ADMIN_CREATE
-          )
-  ),
+  ADMIN(Collections.emptySet()),
   ;
 
   @Getter

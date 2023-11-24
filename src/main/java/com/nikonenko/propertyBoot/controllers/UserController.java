@@ -23,7 +23,6 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-    private final PropertyService propertyService;
     private final JwtUtils jwtUtils;
 
     @PatchMapping
