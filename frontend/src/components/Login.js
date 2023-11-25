@@ -37,6 +37,9 @@ function Login() {
                 if(error.response.status === 401){
                     refreshToken();
                 }
+                if(error.response.status === 403){
+                    alert('Неверные данные, попробуйте еще раз!');
+                }
                 console.error('Ошибка при авторизации', error);
             });
     };
@@ -46,7 +49,6 @@ function Login() {
         const storedRefreshToken = localStorage.getItem('refresh_token');
 
         if (storedAccessToken && storedRefreshToken) {
-            // Выполните здесь дополнительную проверку валидности токенов, если необходимо
             console.log('Пользователь уже авторизован');
             setRedirect(true);
         }

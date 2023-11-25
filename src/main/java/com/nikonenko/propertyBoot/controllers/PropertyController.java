@@ -1,7 +1,5 @@
 package com.nikonenko.propertyBoot.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nikonenko.propertyBoot.dto.SinglePropertyResponse;
 import com.nikonenko.propertyBoot.models.Image;
 import com.nikonenko.propertyBoot.models.Person;
@@ -10,7 +8,8 @@ import com.nikonenko.propertyBoot.models.PropertyType;
 import com.nikonenko.propertyBoot.services.ImageService;
 import com.nikonenko.propertyBoot.services.PropertyService;
 import com.nikonenko.propertyBoot.utils.JwtUtils;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -37,12 +36,17 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RequestMapping("/api/props")
 @CrossOrigin
+@Tag(name="Property Controller", description="Responsible for actions with property ads")
 public class PropertyController {
     private final PropertyService propertyService;
     private final ImageService imageService;
     private final JwtUtils jwtUtils;
 
     @GetMapping
+    @Operation(
+            summary = "Properties List",
+            description = "Allows to obtain paginated, sorted and filtered data about properties"
+    )
     public Page<Property> getProperties(@RequestParam(defaultValue = "0") int pageNumber,
                                         @RequestParam(defaultValue = "3") int pageSize,
                                         @RequestParam(required = false) PropertyType propertyType,
@@ -59,6 +63,10 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
+    @Operation(
+            summary = "Property Data",
+            description = "Allows to obtain data one property by ID"
+    )
     public ResponseEntity<SinglePropertyResponse> getProperty(@PathVariable Integer id) {
         Optional<Property> property = propertyService.findOne(id);
 
@@ -77,22 +85,18 @@ public class PropertyController {
         }
     }
 
-    @GetMapping("/sorted-properties")
-    public Page<Property> getSortedProperties(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "price,asc") String sortBy) {
-        return propertyService.findAllSorted(pageNumber, pageSize, sortBy);
-    }
-
     @PatchMapping("/{propertyId}")
-    public ResponseEntity<?> editProperty(  @RequestParam("images") MultipartFile[] imageFiles,
+    @Operation(
+            summary = "Edit Property",
+            description = "Allows to edit data about property"
+    )
+    public ResponseEntity<?> editProperty(@RequestParam("images") MultipartFile[] imageFiles,
                                                  @RequestParam("propertyData") String propertyData,
                                                  @PathVariable Integer propertyId,
                                                  @RequestParam("propertyType") PropertyType propertyType) {
         if(propertyService.findOne(propertyId).isEmpty())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Недостаточно прав для редактирования объекта недвижимости");
+                    .body("Incorrect property id!");
         Property property = propertyService.findOne(propertyId).get();
         Property updatedProperty = propertyService.parsePropertyData(propertyData);
 
@@ -119,7 +123,7 @@ public class PropertyController {
                 image.setProperty(property);
                 images.add(image);
             } catch (IOException e) {
-                return ResponseEntity.badRequest().body("Ошибка чтения файла изображения");
+                return ResponseEntity.badRequest().body("Cannot read this image");
             }
         }
         property.setImages(images);
@@ -130,9 +134,13 @@ public class PropertyController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Soft Delete",
+            description = "Allows to soft delete data about property"
+    )
     public ResponseEntity<?> deletePropertyByUser(@PathVariable Integer id){
         if(propertyService.findOne(id).isEmpty()){
-            return ResponseEntity.badRequest().body("Неверный id объявления");
+            return ResponseEntity.badRequest().body("Incorrect property ID");
         }
         Property deletedProperty = propertyService.findOne(id).get();
         propertyService.softDelete(id);
@@ -140,9 +148,13 @@ public class PropertyController {
     }
 
     @PostMapping("/{id}")
+    @Operation(
+            summary = "Cancel Soft Deletion",
+            description = "Allows to restore data about soft-deleted property"
+    )
     public ResponseEntity<?> restoreProperty(@PathVariable Integer id){
         if(propertyService.findOne(id).isEmpty()){
-            return ResponseEntity.badRequest().body("Неверный id объявления");
+            return ResponseEntity.badRequest().body("Incorrect property ID");
         }
         Property restoredProperty = propertyService.findOne(id).get();
         propertyService.restore(id);
@@ -150,6 +162,10 @@ public class PropertyController {
     }
 
     @PostMapping("/new")
+    @Operation(
+            summary = "Add",
+            description = "Allows to add new property"
+    )
     public ResponseEntity<?> createProperty(@RequestHeader("Authorization") String authorizationHeader,
                                                  @RequestParam("images") MultipartFile[] imageFiles,
                                                  @RequestParam("propertyData") String propertyData,

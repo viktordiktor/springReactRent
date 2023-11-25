@@ -6,7 +6,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -17,7 +16,7 @@ public class JwtUtils {
     private final UserService userService;
 
     @Value("${application.security.jwt.secret-key}")
-    private String SECRET_KEY; // Замените на ваш секретный ключ
+    private String SECRET_KEY;
 
     public JwtUtils(UserService userService) {
         this.userService = userService;

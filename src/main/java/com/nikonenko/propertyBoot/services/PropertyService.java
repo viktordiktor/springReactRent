@@ -2,11 +2,9 @@ package com.nikonenko.propertyBoot.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.nikonenko.propertyBoot.models.Property;
 import com.nikonenko.propertyBoot.models.PropertyType;
 import com.nikonenko.propertyBoot.repositories.PropertyRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.awt.print.Book;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;

@@ -142,6 +142,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                             className="form-control"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group">
@@ -152,6 +153,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                             className="form-control"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <label htmlFor="selectType">Тип недвижимости:</label>
@@ -160,6 +162,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                         value={propertyTypeOptions.find(option => option.value === propertyType)}
                         onChange={(value) => setPropertyType(value)}
                         id="selectType"
+                        required={true}
                     />
                     <div className="form-group">
                         <label htmlFor="rooms">Количество комнат:</label>
@@ -169,6 +172,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                             className="form-control"
                             value={rooms}
                             onChange={(e) => setRooms(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group">
@@ -179,6 +183,7 @@ const EditPropertyPopup = ({ onClose, propertyId }) => {
                             className="form-control"
                             value={square}
                             onChange={(e) => setSquare(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group">

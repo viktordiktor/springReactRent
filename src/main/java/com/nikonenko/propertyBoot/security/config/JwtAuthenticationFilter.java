@@ -66,9 +66,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
       }
     } catch(ExpiredJwtException e){
-      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Устанавливаем код ошибки 401 в ответе
-      response.getWriter().write("Token expired"); // Отправляем сообщение об ошибке в теле ответа
-      return; // Завершаем выполнение фильтрации
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      response.getWriter().write("Token expired");
+      return;
     }
 
     filterChain.doFilter(request, response);

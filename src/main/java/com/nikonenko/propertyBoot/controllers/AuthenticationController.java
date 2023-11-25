@@ -4,6 +4,8 @@ import com.nikonenko.propertyBoot.dto.AuthenticationRequest;
 import com.nikonenko.propertyBoot.dto.AuthenticationResponse;
 import com.nikonenko.propertyBoot.services.AuthenticationService;
 import com.nikonenko.propertyBoot.dto.RegisterRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +22,15 @@ import java.io.IOException;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name="Authentication Controller", description="Responsible for authentication")
 public class AuthenticationController {
 
   private final AuthenticationService service;
 
   @PostMapping("/register")
+  @Operation(
+          summary = "Register"
+  )
   public ResponseEntity<?> register(
           @RequestBody RegisterRequest request
   ) {
@@ -35,6 +41,9 @@ public class AuthenticationController {
     }
   }
   @PostMapping("/authenticate")
+  @Operation(
+          summary = "Authentication"
+  )
   public ResponseEntity<AuthenticationResponse> authenticate(
       @RequestBody AuthenticationRequest request
   ) {
@@ -42,6 +51,10 @@ public class AuthenticationController {
   }
 
   @PostMapping("/refresh-token")
+  @Operation(
+          summary = "Refresh token",
+          description = "Allows to refresh access-token by refresh-token"
+  )
   public void refreshToken(
       HttpServletRequest request,
       HttpServletResponse response

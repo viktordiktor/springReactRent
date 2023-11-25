@@ -30,6 +30,8 @@ public class SecurityConfiguration {
             "/error",
             "/swagger-resources",
             "/swagger-resources/**",
+            "/v3/api-docs/swagger-config",
+            "/v3/api-docs",
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui/**",

@@ -72,7 +72,6 @@ const Profile = () => {
                     window.location.reload();
                 }
             }
-            // Обновление userProfile после успешного выполнения запроса
             const updatedUserProfile = { ...userProfile };
             updatedUserProfile.person.fullName = fullName;
             updatedUserProfile.person.phone = phone;

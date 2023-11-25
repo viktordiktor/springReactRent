@@ -103,8 +103,6 @@ const PropertyList = () => {
             setShowFilterModal(false);
             setPage(1);
             setFilters(newFilters);
-
-            // Сбрасываем сортировку
             setSortField(null);
             setSortType("ASC");
 
@@ -132,7 +130,7 @@ const PropertyList = () => {
         } else {
             setSortField(field);
             setSortType("ASC");
-            setResetFilters(true); // Устанавливаем состояние resetFilters в true при выборе нового поля сортировки
+            setResetFilters(true);
         }
         setPage(1);
     };

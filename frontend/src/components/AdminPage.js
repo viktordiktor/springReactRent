@@ -43,7 +43,6 @@ const AdminPage = () => {
             axios
                 .delete(`/api/props/${propertyId}`, { headers })
                 .then((response) => {
-                    // Обработка успешного удаления объявления
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -69,7 +68,6 @@ const AdminPage = () => {
             axios
                 .post(`/api/props/${propertyId}`, null, { headers })
                 .then((response) => {
-                    // Обработка успешного восстановления объявления
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -95,7 +93,6 @@ const AdminPage = () => {
             axios
                 .delete(`/api/admin/deleteProperty/${propertyId}`, { headers })
                 .then((response) => {
-                    // Обработка успешного удаления объявления без возможности восстановления
                     const updatedProperties = properties.filter(
                         (property) => property.id !== propertyId
                     );
@@ -229,7 +226,7 @@ const AdminPage = () => {
                             <th>Тип</th>
                             <th>Удалено</th>
                             <th>Изображение</th>
-                            <th>Действия</th> {/* Новый столбец */}
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -252,7 +249,7 @@ const AdminPage = () => {
                                         />
                                     )}
                                 </td>
-                                <td> {/* Действия */}
+                                <td>
                                     {property.deleted ? (
                                         <>
                                             <button

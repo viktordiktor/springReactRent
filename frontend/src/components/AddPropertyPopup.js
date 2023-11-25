@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/addProperty.css';
 import { useNavigate } from 'react-router-dom';
-import {propertyTypeOptions, refreshToken} from '../utils/requestUtils';
+import {propertyTypeOptions} from '../utils/requestUtils';
 import Select from 'react-select';
 
 const AddPropertyPopup = ({ onClose }) => {
@@ -82,6 +82,7 @@ const AddPropertyPopup = ({ onClose }) => {
                             className="form-control"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group">
@@ -92,6 +93,7 @@ const AddPropertyPopup = ({ onClose }) => {
                             className="form-control"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <label htmlFor="selectType">Тип недвижимости:</label>
@@ -100,6 +102,7 @@ const AddPropertyPopup = ({ onClose }) => {
                         value={propertyType}
                         onChange={(value) => setPropertyType(value)}
                         id="selectType"
+                        required={true}
                     />
 
                     <div className="form-group">
@@ -110,6 +113,7 @@ const AddPropertyPopup = ({ onClose }) => {
                             className="form-control"
                             value={rooms}
                             onChange={(e) => setRooms(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group">
@@ -120,6 +124,7 @@ const AddPropertyPopup = ({ onClose }) => {
                             className="form-control"
                             value={square}
                             onChange={(e) => setSquare(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group">
@@ -129,11 +134,12 @@ const AddPropertyPopup = ({ onClose }) => {
                             className="form-control"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+                            required={true}
                         />
                     </div>
                     <div className="form-group add-button">
                         <label htmlFor="images">Изображения:&nbsp;&nbsp;</label>
-                        <input type="file" id="images" className="form-control-file" onChange={handleImageUpload} />
+                        <input type="file" id="images" className="form-control-file" onChange={handleImageUpload}/>
                     </div>
                     <div className="image-preview-container">
                         {Object.entries(images).map(([id, image]) => (

@@ -1,0 +1,3 @@
+INSERT INTO token (expired, revoked, user_id, token, token_type)
+VALUES (false, false, 1, 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHRlc3QucnUiLCJpYXQiOjE3MDA2NjY4MzIsImV4cCI6MTcwMDc1MzIzMn0.1g1JxbJvBMPs1El1H0CFnVk6Xe5cd69PoNQY1sQqmi8', 'BEARER'),
+       (false, false, 2, 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LnJ1IiwiaWF0IjoxNzAwOTM4ODczLCJleHAiOjE3MDEwMjUyNzN9.MKDy_55WClMD7a7wePuiLyg1PlNkFtww7VCzKNguQfM', 'BEARER');

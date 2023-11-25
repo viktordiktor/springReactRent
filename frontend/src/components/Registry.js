@@ -42,6 +42,7 @@ function Registry() {
                 setRedirect(true);
             })
             .catch(error => {
+                if(error.response.data) alert(error.response.data);
                 console.error('Ошибка при регистрации', error);
             });
     };
@@ -52,7 +53,7 @@ function Registry() {
 
     return (
         <div className="container d-flex align-items-center justify-content-center vh-100">
-            <div className="card w-75"> {/* Измененный класс w-75 */}
+            <div className="card w-75">
                 <div className="card-body">
                     <h2 className="card-title text-center mb-4">Регистрация</h2>
                     <form onSubmit={handleSubmit}>

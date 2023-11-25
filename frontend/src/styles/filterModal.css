@@ -1,10 +1,10 @@
 .filter-modal {
     position: fixed;
     bottom: 0;
-    background-color: gray; /* Пример серого цвета фона с непрозрачностью 0.5 */
+    background-color: gray;
     padding: 20px;
     border-radius: 5px;
-    color: #fff; /* Цвет текста внутри модального окна */
+    color: #fff;
 }
 
 .close-button {
