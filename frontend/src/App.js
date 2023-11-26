@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import PropertyList from './components/PropertyList';
 import Registry from "./components/Registry";
 import Login from "./components/Login"
@@ -12,6 +12,7 @@ const App = () => {
       <Router>
         <div>
           <Routes>
+            <Route path="/" element={<Navigate to="/props" />} />
             <Route forceRefresh={true} exact path="/props" element={<PropertyList/>} />
             <Route exact path="/props/:id" element={<SingleProperty />} />
             <Route exact path="/register" element={<Registry/>} />
