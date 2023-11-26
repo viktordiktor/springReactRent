@@ -26,8 +26,10 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
   server:
+    max-http-header-size: 16KB
     tomcat:
       max-swallow-size: -1
+      max-http-header-size: 16KB
 
 application:
   security:
