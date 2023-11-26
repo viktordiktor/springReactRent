@@ -26,7 +26,7 @@
     npm start
     
     # main page: http://localhost:3000/props
-    # swagger docs: http://localhost:8080/v3/api-docs
+    # swagger docs: http://localhost:8080/swagger-ui
     # there are two built-in user accounts to demonstrate the differing levels of access to the endpoints:
     # - User - email: user@test.ru   password: user
     # - Admin - email: admin@test.ru    password: admin
