@@ -105,17 +105,6 @@ public class PropertyService {
         }
     }
 
-    public List<Property> findWithDeleted() {
-        return propertyRepository.findAll();
-    }
-
-    public Page<Property> findAllSorted(int pageNumber, int pageSize, String sortBy) {
-        Sort sort = Sort.by(sortBy.split(",")[0]);
-        sort = sortBy.split(",")[1].equalsIgnoreCase("asc") ? sort.ascending() : sort.descending();
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
-        return propertyRepository.findAll(pageRequest);
-    }
-
     public Optional<Property> findOne(Integer id){
         return propertyRepository.findById(id);
     }

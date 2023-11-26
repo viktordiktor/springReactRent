@@ -14,7 +14,7 @@ const App = () => {
           <Routes>
             <Route forceRefresh={true} exact path="/props" element={<PropertyList/>} />
             <Route exact path="/props/:id" element={<SingleProperty />} />
-            <Route exact path="/registry" element={<Registry/>} />
+            <Route exact path="/register" element={<Registry/>} />
             <Route exact path="/login" element={<Login/>} />
             <Route exact path="/profile" element={<Profile/>} />
             <Route exact path="/admin" element={<AdminPage/>} />

@@ -33,4 +33,15 @@ public class UserController {
                                                 String authorizationHeader){
         return ResponseEntity.ok(jwtUtils.extractUser(authorizationHeader.substring(7)));
     }
+
+    @GetMapping("/role")
+    @Operation(
+            summary = "User Role",
+            description = "Allows to obtain user role"
+    )
+    public ResponseEntity<?> getUserRole(@RequestHeader("Authorization")
+                                            @Parameter(description = "Access token", required = true)
+                                            String authorizationHeader){
+        return ResponseEntity.ok(jwtUtils.extractUser(authorizationHeader.substring(7)).getRole());
+    }
 }

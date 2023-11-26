@@ -145,6 +145,12 @@ const Profile = () => {
         window.location.reload();
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        navigate("/login");
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -182,6 +188,7 @@ const Profile = () => {
                                 <h4>ФИО: {userProfile.person.fullName}</h4>
                                 <h4>Телефон: {userProfile.person.phone}</h4>
                                 <button onClick={handleEditClick}>Редактировать</button>
+                                <button onClick={handleLogout}>Выйти из аккаунта</button>
                             </div>
                         )}
                         <h4>Заказы:</h4>

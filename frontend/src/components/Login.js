@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {refreshToken} from "../utils/requestUtils";
 
 
@@ -90,6 +90,9 @@ function Login() {
                         </div>
                         <button type="submit" className="btn btn-primary">Войти</button>
                     </form>
+                    <p className="text-center mt-3">
+                        Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+                    </p>
                 </div>
             </div>
         </div>

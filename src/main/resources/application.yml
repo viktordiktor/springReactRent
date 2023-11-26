@@ -16,6 +16,18 @@ spring:
           format_sql: true
       database: postgresql
       database-platform: org.hibernate.dialect.PostgreSQLDialect
+  jpa:
+    show-sql: true
+  web:
+    resources:
+      add-mappings: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  server:
+    tomcat:
+      max-swallow-size: -1
 
 application:
   security:

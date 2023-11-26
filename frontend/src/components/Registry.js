@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 
 function Registry() {
     const [email, setEmail] = useState('');
@@ -107,6 +107,9 @@ function Registry() {
                         </div>
                         <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
                     </form>
+                    <p className="text-center mt-3">
+                        Уже есть аккаунт? <Link to="/login">Войти</Link>
+                    </p>
                 </div>
             </div>
         </div>
