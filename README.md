@@ -2,7 +2,7 @@
 
 # Quick Start
 
-    # clone our repo
+    # clone repo
     # --depth 1 removes all but one .git commit history
     git clone --depth 1 https://github.com/viktordiktor/springReactRent.git
     
@@ -11,6 +11,12 @@
     
     # install the repo with mvn
     mvn install
+
+    # edit database settings in application.yml
+    datasource:
+    url: jdbc:postgresql://localhost:5432/*your_postgre_db*
+    username: *your_username*
+    password: *your_password*
     
     # start the server
     mvn spring-boot:run
