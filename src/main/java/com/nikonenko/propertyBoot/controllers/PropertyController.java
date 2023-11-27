@@ -47,13 +47,15 @@ public class PropertyController {
             summary = "Properties List",
             description = "Allows to obtain paginated, sorted and filtered data about properties"
     )
-    public Page<Property> getProperties(@RequestParam(defaultValue = "0") int pageNumber,
-                                        @RequestParam(defaultValue = "3") int pageSize,
-                                        @RequestParam(required = false) PropertyType propertyType,
-                                        @RequestParam(required = false) BigDecimal minPrice,
-                                        @RequestParam(required = false) BigDecimal maxPrice,
-                                        @RequestParam(required=false) String sortField,
-                                        @RequestParam(required = false) String sortType) {
+    public Page<Property> getProperties(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "3") int pageSize,
+            @RequestParam(required = false) PropertyType propertyType,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required=false) String sortField,
+            @RequestParam(required = false) String sortType
+    ) {
         if (propertyType != null || minPrice != null || maxPrice != null || sortField != null) {
             return propertyService.findFilteredProperties(propertyType, minPrice, maxPrice, sortField, sortType,
                     pageNumber, pageSize);

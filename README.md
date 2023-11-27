@@ -1,5 +1,8 @@
 # Spring + Hibernate + React + Lombok + JWT App
-
+    Server-side: Spring Boot, Spring MVC, Spring Security (with JWT Token), Spring Data JPA, Hibernate, Criteria API, Lombok
+    Client-side: React, Axios, Bootstrap
+    Database: PostgreSQL, database migration - Flyway.
+    Documentation - Swagger.
 # Quick Start
 
     # clone repo

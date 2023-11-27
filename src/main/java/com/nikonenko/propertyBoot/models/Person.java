@@ -10,11 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @Builder
@@ -27,10 +30,14 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "Полное имя не может быть пустым")
     @Column(nullable = false, name = "full_name")
+    @Length(max = 100, message = "Полное имя должно содержать не более {max} символов")
     private String fullName;
 
+    @NotBlank(message = "Телефон не может быть пустым")
     @Column(nullable = false)
+    @Pattern(regexp = "\\d{10}", message = "Неверный формат телефона")
     private String phone;
 
     @OneToOne(cascade = CascadeType.ALL)

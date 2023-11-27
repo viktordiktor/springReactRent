@@ -1,10 +1,7 @@
 package com.nikonenko.propertyBoot.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,18 +41,23 @@ public class Property {
     @JsonBackReference
     private User user;
 
+    @NotBlank(message = "Адрес не может быть пустым")
     @Column(nullable = false)
     private String address;
 
+    @NotNull(message = "Цена не может быть пустой")
+    @Positive(message = "Цена должна быть положительной")
     @Column(nullable = false)
     private BigDecimal price;
 
     @Column
     private String description;
 
+    @Positive(message = "Количество комнат должно быть положительным")
     @Column
     private Integer rooms;
 
+    @Positive(message = "Площадь должна быть положительной")
     @Column
     private Float square;
 

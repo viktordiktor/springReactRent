@@ -1,8 +1,6 @@
 package com.nikonenko.propertyBoot.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,15 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.SqlTypes;
-
 
 import java.sql.Types;
-import java.util.Set;
 
 @Entity
 @Table(name="images")
@@ -35,6 +29,7 @@ public class Image {
 
     @Lob
     @Column(name="image_data")
+    @NotNull(message = "Изображение не может быть пустым")
     @JdbcTypeCode(Types.LONGVARBINARY)
     private byte[] image;
 

@@ -1,6 +1,5 @@
 package com.nikonenko.propertyBoot.controllers;
 
-import com.nikonenko.propertyBoot.services.UserService;
 import com.nikonenko.propertyBoot.utils.JwtUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @Tag(name="User Controller", description="Responsible for User profile")
 public class UserController {
-
-    private final UserService userService;
     private final JwtUtils jwtUtils;
 
     @GetMapping("/profile")
