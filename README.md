@@ -3,10 +3,9 @@
 # Quick Start
 
     # clone repo
-    # --depth 1 removes all but one .git commit history
-    git clone --depth 1 https://github.com/viktordiktor/springReactRent.git
+    git clone https://github.com/viktordiktor/springReactRent.git
     
-    # change directory to our repo
+    # change directory to repo
     cd springReactRent
     
     # install the repo with mvn
@@ -23,6 +22,7 @@
 
     # start the react frontend (open another terminal)
     cd frontend
+    npm install 
     npm start
     
     # main page: http://localhost:3000/props
