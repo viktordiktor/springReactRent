@@ -4,6 +4,7 @@ package com.nikonenko.propertyBoot.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +24,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/api/auth/**",
-            "/api/props**",
-            "/api/props/**",
             "/error",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -48,6 +47,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/props", "/api/props/**").permitAll()
                                 .requestMatchers("/api/admin").hasRole(ADMIN.name())
                                 .requestMatchers("/api/").hasAnyRole(ADMIN.name(), USER.name())
                                 .anyRequest()

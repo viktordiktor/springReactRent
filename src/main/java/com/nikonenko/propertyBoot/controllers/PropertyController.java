@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +54,7 @@ public class PropertyController {
             @RequestParam(required = false) PropertyType propertyType,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required=false) String sortField,
+            @RequestParam(required = false) String sortField,
             @RequestParam(required = false) String sortType
     ) {
         if (propertyType != null || minPrice != null || maxPrice != null || sortField != null) {
@@ -178,5 +179,20 @@ public class PropertyController {
         property.setUser(jwtUtils.extractUser(token));
         property.setType(propertyType);
         return getResponseEntity(imageFiles, property);
+    }
+
+    @DeleteMapping("/hardDelete/{propertyId}")
+    @Operation(
+            summary = "Hard delete",
+            description = "Hard delete property ad"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deletePropertyByAdmin(@PathVariable Integer propertyId){
+        if(propertyService.findOne(propertyId).isEmpty()){
+            return ResponseEntity.badRequest().body("Incorrect property ID");
+        }
+        Property deletedProperty = propertyService.findOne(propertyId).get();
+        propertyService.hardDelete(deletedProperty);
+        return ResponseEntity.ok(deletedProperty);
     }
 }

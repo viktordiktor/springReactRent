@@ -104,7 +104,7 @@ export const hardDeleteProperty = async (propertyId) => {
       Authorization: `Bearer ${access_token}`,
     };
 
-    await axios.delete(`/api/admin/deleteProperty/${propertyId}`, { headers });
+    await axios.delete(`/api/props/hardDelete/${propertyId}`, { headers });
   }
 };
 

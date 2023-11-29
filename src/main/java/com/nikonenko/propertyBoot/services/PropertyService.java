@@ -6,7 +6,6 @@ import com.nikonenko.propertyBoot.models.Property;
 import com.nikonenko.propertyBoot.models.PropertyType;
 import com.nikonenko.propertyBoot.repositories.PropertyRepository;
 import jakarta.persistence.criteria.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class PropertyService {
     private final PropertyRepository propertyRepository;
 
-    @Autowired
     public PropertyService(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
     }
